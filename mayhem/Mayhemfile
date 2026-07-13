@@ -1,0 +1,14 @@
+# Mayhem target: python-libnmap nmap-XML report parser (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_parse.py; Atheris
+# instruments the libnmap library so the run records coverage (edges).
+project: python-libnmap
+target: parse-fuzz
+
+cmds:
+  - cmd: /mayhem/libnmap_fuzzer
+    libfuzzer: true
+
+# Seed corpus of representative nmap XML reports (server tar + canonical per-target path).
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/parse-fuzz/testsuite
